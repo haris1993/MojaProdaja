@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="E_MarketingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BrojTelefona" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Kategorija" Relationship="Self.FK__Kategorij__Admin__267ABA7A" FromRole="Admin" ToRole="Kategorija" />
+  </EntityType>
+  <EntityType Name="Kategorija">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Naziv" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Slika" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="AdminId" Type="Int32" />
+    <NavigationProperty Name="Admin" Relationship="Self.FK__Kategorij__Admin__267ABA7A" FromRole="Kategorija" ToRole="Admin" />
+    <NavigationProperty Name="Proizvod" Relationship="Self.FK__Proizvod__Katego__2E1BDC42" FromRole="Kategorija" ToRole="Proizvod" />
+  </EntityType>
+  <EntityType Name="Korisnik">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ImeIPrezime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Slika" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BrojTelefona" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Proizvod" Relationship="Self.FK__Proizvod__Korisn__2F10007B" FromRole="Korisnik" ToRole="Proizvod" />
+  </EntityType>
+  <EntityType Name="Proizvod">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Naziv" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Slika" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Cijena" Type="Int32" />
+    <Property Name="DetaljanOpis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="KategorijaId" Type="Int32" />
+    <Property Name="KorisnikId" Type="Int32" />
+    <NavigationProperty Name="Kategorija" Relationship="Self.FK__Proizvod__Katego__2E1BDC42" FromRole="Proizvod" ToRole="Kategorija" />
+    <NavigationProperty Name="Korisnik" Relationship="Self.FK__Proizvod__Korisn__2F10007B" FromRole="Proizvod" ToRole="Korisnik" />
+  </EntityType>
+  <Association Name="FK__Kategorij__Admin__267ABA7A">
+    <End Role="Admin" Type="Self.Admin" Multiplicity="0..1" />
+    <End Role="Kategorija" Type="Self.Kategorija" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Admin">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Kategorija">
+        <PropertyRef Name="AdminId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Proizvod__Katego__2E1BDC42">
+    <End Role="Kategorija" Type="Self.Kategorija" Multiplicity="0..1" />
+    <End Role="Proizvod" Type="Self.Proizvod" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kategorija">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Proizvod">
+        <PropertyRef Name="KategorijaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Proizvod__Korisn__2F10007B">
+    <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="0..1" />
+    <End Role="Proizvod" Type="Self.Proizvod" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Korisnik">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Proizvod">
+        <PropertyRef Name="KorisnikId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="E_MarketingEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admin" EntityType="Self.Admin" />
+    <EntitySet Name="Kategorija" EntityType="Self.Kategorija" />
+    <EntitySet Name="Korisnik" EntityType="Self.Korisnik" />
+    <EntitySet Name="Proizvod" EntityType="Self.Proizvod" />
+    <AssociationSet Name="FK__Kategorij__Admin__267ABA7A" Association="Self.FK__Kategorij__Admin__267ABA7A">
+      <End Role="Admin" EntitySet="Admin" />
+      <End Role="Kategorija" EntitySet="Kategorija" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Proizvod__Katego__2E1BDC42" Association="Self.FK__Proizvod__Katego__2E1BDC42">
+      <End Role="Kategorija" EntitySet="Kategorija" />
+      <End Role="Proizvod" EntitySet="Proizvod" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Proizvod__Korisn__2F10007B" Association="Self.FK__Proizvod__Korisn__2F10007B">
+      <End Role="Korisnik" EntitySet="Korisnik" />
+      <End Role="Proizvod" EntitySet="Proizvod" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

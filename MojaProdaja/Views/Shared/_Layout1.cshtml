@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .na {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+    <title>@Page.Title</title>
+    @RenderSection("head", required: false)
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar navbar-inverse" style="">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                @Html.ActionLink("MojaProdaja", "Početna", "Korisnik", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Kategorija", "Početna", "Korisnik", null, new { @class = "ht" })</li>
+                <li>
+                    @if (Session["Id"] != null)
+                    {
+                        @Html.ActionLink("Kreiraj proizvod", "KreirajProizvod", "Korisnik", null, new { @class = "ht" })
+
+                    }
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    @if (Session["Id"] == null)
+                    {
+
+                        @Html.ActionLink("Prijavi se", "Login", "Autentifikacija", null, new { @class = "ht", })
+
+                    }
+                </li>
+                <li>
+                    @if (Session["Id"] == null)
+                    {
+                        @Html.ActionLink("Registriraj se", "KreiranjeKorisnika", "Korisnik", null, new { @class = "ht" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Odjavi se", "Odjava", "Autentifikacija", null, new { @class = "ht" })
+                    }
+
+<li>
+            </ul>
+        </div>
+    </nav>
+
+    @RenderBody()
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+</body>
+</html>
